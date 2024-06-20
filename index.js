@@ -37,6 +37,8 @@ async function run() {
 
     const allDataCollection=client.db('assignment11DB').collection('users');
 
+    const allDataCollection2=client.db('assignment11DB').collection('assets');
+
 
 
 
@@ -104,7 +106,28 @@ app.delete('/allUsers/:id', async(req,res)=>{
     })
 
 
+// This portion for asset collections------------------------------------------------------
 
+app.post('/assets',async(req,res)=>{
+  const allData = req.body;
+  // console.log(allData);
+
+  const result = await allDataCollection2.insertOne(allData);
+  res.send(result);
+})
+
+
+app.get('/assets', async(req,res)=>{
+  const cursor = allDataCollection2.find()
+  const results = await cursor.toArray();
+  res.send(results);
+})
+
+
+
+
+
+// This portion for asset collections------------------------------------------------------
 
 
 
