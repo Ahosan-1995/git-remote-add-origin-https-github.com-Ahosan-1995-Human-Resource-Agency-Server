@@ -43,7 +43,65 @@ async function run() {
 
 // -------------------------------Only for operations---------------------
 
+app.post('/allUsers',async(req,res)=>{
+    const allData = req.body;
+    console.log(allData);
 
+    const result = await allDataCollection.insertOne(allData);
+    res.send(result);
+})
+
+
+app.get('/allUsers', async(req,res)=>{
+    const cursor = allDataCollection.find()
+    const results = await cursor.toArray();
+    res.send(results);
+})
+
+
+
+
+app.get('/allUsers/:email', async(req,res)=>{
+  const email = req.params.email;
+  const query = {email:email}
+  const cursor = await allDataCollection.find(query);
+  const result = await cursor.toArray();
+  res.send(result);
+})
+
+
+//above is ok and  post and get method is ok
+
+
+app.delete('/allUsers/:id', async(req,res)=>{
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)};
+    const result = allDataCollection.deleteOne(query);
+    res.send(result);
+})
+
+
+    // Update
+    app.put('/allUsers/:id', async(req,res)=>{
+        const id=req.params.id;
+        const filter = {_id: new ObjectId(id)};
+        const options = {upsert: true};
+        const updatedUser=req.body;
+        const user = {
+            $set:{
+                service_name:updatedUser.service_name,
+                service_image:updatedUser.service_image,
+                price:updatedUser.price,
+                service_area:updatedUser.service_area,
+                service_description:updatedUser.service_description,
+                email:updatedUser.email,
+                provider_name:updatedUser.provider_name,
+                provider_imageURL:updatedUser.provider_imageURL,
+            }
+        }
+        const result = await allDataCollection.updateOne(filter, user,options);
+        res.send(result);
+    })
 
 
 
