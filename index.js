@@ -101,7 +101,7 @@ app.put('/allUsers/:email', async(req,res)=>{
 // })
 
 
-    // Update
+    // Refereence code bellow
     app.put('/allUsers/:id', async(req,res)=>{
         const id=req.params.id;
         const filter = {_id: new ObjectId(id)};
@@ -122,6 +122,7 @@ app.put('/allUsers/:email', async(req,res)=>{
         const result = await allDataCollection.updateOne(filter, user,options);
         res.send(result);
     })
+     // Refereence code above
 
 
 // This portion for asset collections------------------------------------------------------
@@ -144,9 +145,9 @@ app.get('/assets', async(req,res)=>{
 
 
 
-app.get('/assets/:email', async(req,res)=>{
-  const email = req.params.email;
-  const query = {email:email}
+app.get('/assets/:id', async(req,res)=>{
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)};
   const cursor = await allDataCollection2.find(query);
   const result = await cursor.toArray();
   res.send(result);
@@ -154,6 +155,30 @@ app.get('/assets/:email', async(req,res)=>{
 
 
 
+app.delete('/assets/:id', async(req,res)=>{
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)};
+  const result = allDataCollection2.deleteOne(query);
+  res.send(result);
+})
+
+
+
+app.put('/assets/:id', async(req,res)=>{
+  const id=req.params.id;
+  const filter = {_id: new ObjectId(id)};
+  const options = {upsert: true};
+  const updatedAsset=req.body;
+  const assets = {
+      $set:{
+        quantity:updatedAsset.quantity,
+        // note:updatedAsset.note,
+        // requestDate:updatedAsset.requestDate,
+      }
+  }
+  const result = await allDataCollection2.updateOne(filter, assets,options);
+  res.send(result);
+})
 
 
 
