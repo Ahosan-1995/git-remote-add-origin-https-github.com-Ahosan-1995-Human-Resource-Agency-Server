@@ -72,15 +72,33 @@ app.get('/allUsers/:email', async(req,res)=>{
 })
 
 
+app.put('/allUsers/:email', async(req,res)=>{
+  const email=req.params.email;
+  const filter = {email: email};
+  const options = {upsert: true};
+  const updatedUser=req.body;
+  const user = {
+      $set:{
+        approveStatus:updatedUser.approveStatus,
+        associatedEmail:updatedUser.associatedEmail,
+      }
+  }
+  const result = await allDataCollection.updateOne(filter, user,options);
+  res.send(result);
+})
+
+
+
+
 //above is ok and  post and get method is ok
 
 
-app.delete('/allUsers/:id', async(req,res)=>{
-    const id = req.params.id;
-    const query = {_id: new ObjectId(id)};
-    const result = allDataCollection.deleteOne(query);
-    res.send(result);
-})
+// app.delete('/allUsers/:id', async(req,res)=>{
+//     const id = req.params.id;
+//     const query = {_id: new ObjectId(id)};
+//     const result = allDataCollection.deleteOne(query);
+//     res.send(result);
+// })
 
 
     // Update
@@ -122,6 +140,18 @@ app.get('/assets', async(req,res)=>{
   const results = await cursor.toArray();
   res.send(results);
 })
+
+
+
+
+app.get('/assets/:email', async(req,res)=>{
+  const email = req.params.email;
+  const query = {email:email}
+  const cursor = await allDataCollection2.find(query);
+  const result = await cursor.toArray();
+  res.send(result);
+})
+
 
 
 
