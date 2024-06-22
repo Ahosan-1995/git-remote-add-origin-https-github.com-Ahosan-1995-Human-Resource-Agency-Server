@@ -39,6 +39,8 @@ async function run() {
 
     const allDataCollection2=client.db('assignment11DB').collection('assets');
 
+    const allDataCollection3=client.db('assignment11DB').collection('requestedAsset');
+
 
 
 
@@ -185,13 +187,48 @@ app.put('/assets/:id', async(req,res)=>{
 // This portion for asset collections------------------------------------------------------
 
 
+// this portion is for requested asset
+app.post('/requestedAsset',async(req,res)=>{
+  const allData = req.body;
+  // console.log(allData);
+
+  const result = await allDataCollection3.insertOne(allData);
+  res.send(result);
+})
+
+
+app.get('/requestedAsset', async(req,res)=>{
+  const cursor = allDataCollection3.find()
+  const results = await cursor.toArray();
+  res.send(results);
+})
 
 
 
+app.delete('/requestedAsset/:id', async(req,res)=>{
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)};
+  const result = allDataCollection3.deleteOne(query);
+  res.send(result);
+})
 
 
-
-
+app.put('/requestedAsset/:id', async(req,res)=>{
+  const id=req.params.id;
+  const filter = {_id: new ObjectId(id)};
+  const options = {upsert: true};
+  const updatedRequest=req.body;
+  const assets = {
+      $set:{
+        status:updatedRequest.status,
+        approveDate:updatedRequest.approveDate,
+        approverEmail:updatedRequest.approverEmail,
+        
+      }
+  }
+  const result = await allDataCollection3.updateOne(filter, assets,options);
+  res.send(result);
+})
 
 
 
