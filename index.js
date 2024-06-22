@@ -83,6 +83,26 @@ app.put('/allUsers/:email', async(req,res)=>{
       $set:{
         approveStatus:updatedUser.approveStatus,
         associatedEmail:updatedUser.associatedEmail,
+        logo:updatedUser.logo,
+        
+
+      }
+  }
+  const result = await allDataCollection.updateOne(filter, user,options);
+  res.send(result);
+})
+
+
+app.patch('/allUsers/:email', async(req,res)=>{
+  const email=req.params.email;
+  const filter = {email: email};
+  const options = {upsert: true};
+  const updatedUser=req.body;
+  const user = {
+      $set:{
+        name:updatedUser.name,
+        
+
       }
   }
   const result = await allDataCollection.updateOne(filter, user,options);
@@ -103,28 +123,28 @@ app.put('/allUsers/:email', async(req,res)=>{
 // })
 
 
-    // Refereence code bellow
-    app.put('/allUsers/:id', async(req,res)=>{
-        const id=req.params.id;
-        const filter = {_id: new ObjectId(id)};
-        const options = {upsert: true};
-        const updatedUser=req.body;
-        const user = {
-            $set:{
-                service_name:updatedUser.service_name,
-                service_image:updatedUser.service_image,
-                price:updatedUser.price,
-                service_area:updatedUser.service_area,
-                service_description:updatedUser.service_description,
-                email:updatedUser.email,
-                provider_name:updatedUser.provider_name,
-                provider_imageURL:updatedUser.provider_imageURL,
-            }
-        }
-        const result = await allDataCollection.updateOne(filter, user,options);
-        res.send(result);
-    })
-     // Refereence code above
+    // // Refereence code bellow
+    // app.put('/allUsers/:id', async(req,res)=>{
+    //     const id=req.params.id;
+    //     const filter = {_id: new ObjectId(id)};
+    //     const options = {upsert: true};
+    //     const updatedUser=req.body;
+    //     const user = {
+    //         $set:{
+    //             service_name:updatedUser.service_name,
+    //             service_image:updatedUser.service_image,
+    //             price:updatedUser.price,
+    //             service_area:updatedUser.service_area,
+    //             service_description:updatedUser.service_description,
+    //             email:updatedUser.email,
+    //             provider_name:updatedUser.provider_name,
+    //             provider_imageURL:updatedUser.provider_imageURL,
+    //         }
+    //     }
+    //     const result = await allDataCollection.updateOne(filter, user,options);
+    //     res.send(result);
+    // })
+    //  // Refereence code above
 
 
 // This portion for asset collections------------------------------------------------------
