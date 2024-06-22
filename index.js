@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-// const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -115,36 +115,6 @@ app.patch('/allUsers/:email', async(req,res)=>{
 //above is ok and  post and get method is ok
 
 
-// app.delete('/allUsers/:id', async(req,res)=>{
-//     const id = req.params.id;
-//     const query = {_id: new ObjectId(id)};
-//     const result = allDataCollection.deleteOne(query);
-//     res.send(result);
-// })
-
-
-    // // Refereence code bellow
-    // app.put('/allUsers/:id', async(req,res)=>{
-    //     const id=req.params.id;
-    //     const filter = {_id: new ObjectId(id)};
-    //     const options = {upsert: true};
-    //     const updatedUser=req.body;
-    //     const user = {
-    //         $set:{
-    //             service_name:updatedUser.service_name,
-    //             service_image:updatedUser.service_image,
-    //             price:updatedUser.price,
-    //             service_area:updatedUser.service_area,
-    //             service_description:updatedUser.service_description,
-    //             email:updatedUser.email,
-    //             provider_name:updatedUser.provider_name,
-    //             provider_imageURL:updatedUser.provider_imageURL,
-    //         }
-    //     }
-    //     const result = await allDataCollection.updateOne(filter, user,options);
-    //     res.send(result);
-    // })
-    //  // Refereence code above
 
 
 // This portion for asset collections------------------------------------------------------
@@ -267,7 +237,7 @@ app.put('/requestedAsset/:id', async(req,res)=>{
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
-    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");json f
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
